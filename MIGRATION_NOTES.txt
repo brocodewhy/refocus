@@ -1,0 +1,12 @@
+This version replaces Supabase Auth with Firebase Authentication plus server-side Next.js session cookies.
+
+Copy the files in this project into your current project, preserving .env.local. Do not copy .env.local.example over .env.local.
+
+Important changes:
+- middleware.ts was removed because the old Supabase-cookie middleware would redirect Firebase users back to /login.
+- app/(protected)/layout.tsx now verifies the Firebase session cookie.
+- app/api/auth/session creates/deletes the HTTP-only session cookie.
+- app/api/focus-sessions and app/api/usage-entries verify the session and scope database operations to Firebase UID.
+- lib/supabase/admin.ts uses SUPABASE_SERVICE_ROLE_KEY only on the server.
+- Run supabase/firebase-auth-migration.sql only after backing up your database.
+- Keep the Firebase `functions/` folder created earlier if you want, but it is not used by this implementation and should not be deployed.
